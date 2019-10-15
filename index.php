@@ -1,3 +1,10 @@
+<?php
+
+require_once "vendor/autoload.php";
+use WindowsAzure\Common\ServicesBuilder;
+use WindowsAzure\Common\ServiceException;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,13 +44,23 @@
     if(isset($_POST['Submit'])){
 
         // Create a Connection String
-        $connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('account_name').";AccountKey=".getenv('account_key');
+        $connectionString = "DefaultEndpointsProtocol=[http|https];AccountName=dicodingstoragee;AccountKey=MCNEWicyufBMbUW8GK6SyeCttviy/bkwaTy3uziRONUkfXoywR0FBJs9oOk5d3lB9qcYAf7h2rXTi5vbZSJ2Cw==";
 
         // Create blob client.
-        $blobClient = BlobRestProxy::createBlobService($connectionString);
+        $blobClient = ServicesBuilder::getInstance()->createBlobService($connectionString);
 
         // container name
         $container = "blockbobs";
+        $createContainerOptions->addMetaData("key1", "value1");
+        $createContainerOptions->addMetaData("key2", "value2");
+
+        try {
+            $blobRestProxy->createContainer($container, $createContainerOptions);
+        } catch (ServiceException $e){
+            $code = $e->getCode();
+            $error_message = $e->getMessage();
+            echo $code.": ".$error_message."<br />";
+        }
 
         // get file data
         $nameFile = $_FILES['image']['name'];
@@ -55,10 +72,19 @@
         // move a file
         $upload = move_uploaded_file($nameTemp, $directory.$nameFile);
         
-
         if ($upload){
             echo "Berhasil Upload<br>";
-            echo "Link: <a href='".$directory.$nameFile."'>".$nameFile."</a>";
+            $content = fopen($directory.$nameFile.$_FILES['image']['name'],"r");
+            $blobName = "myblobs";
+
+            try {
+                $blobRestProxy->createBlockBlob($container, $blobName, $content);
+            } catch(ServiceException $e){
+                $code = $e->getCode();
+                $error_message = $e->getMessage();
+                echo $code.": ".$error_message."<br />";
+            }
+
         } else {
             echo "Upload Gagal!!";
         }

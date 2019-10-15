@@ -1,8 +1,3 @@
-<?php
-
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +36,15 @@
 <?php
     if(isset($_POST['Submit'])){
 
+        // Create a Connection String
+        $connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('account_name').";AccountKey=".getenv('account_key');
+
+        // Create blob client.
+        $blobClient = BlobRestProxy::createBlobService($connectionString);
+
+        // container name
+        $container = "blockbobs";
+
         // get file data
         $nameFile = $_FILES['image']['name'];
         $nameTemp = $_FILES['image']['tmp_name'];
@@ -50,6 +54,7 @@
 
         // move a file
         $upload = move_uploaded_file($nameTemp, $directory.$nameFile);
+        
 
         if ($upload){
             echo "Berhasil Upload<br>";

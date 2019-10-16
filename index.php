@@ -44,7 +44,7 @@ use WindowsAzure\Common\ServiceException;
     if(isset($_POST['Submit'])){
 
         // Create a Connection String
-        $connectionString = "DefaultEndpointsProtocol=[http|https];AccountName=dicodingstoragee;AccountKey=MCNEWicyufBMbUW8GK6SyeCttviy/bkwaTy3uziRONUkfXoywR0FBJs9oOk5d3lB9qcYAf7h2rXTi5vbZSJ2Cw==";
+        // $connectionString = "DefaultEndpointsProtocol=[http|https];AccountName=dicodingstoragee;AccountKey=MCNEWicyufBMbUW8GK6SyeCttviy/bkwaTy3uziRONUkfXoywR0FBJs9oOk5d3lB9qcYAf7h2rXTi5vbZSJ2Cw==";
 
         // Create blob client.
         $blobClient = ServicesBuilder::getInstance()->createBlobService($connectionString);
@@ -61,16 +61,19 @@ use WindowsAzure\Common\ServiceException;
             $error_message = $e->getMessage();
             echo $code.": ".$error_message."<br />";
         }
+        var_dump($blobRestProxy);
 
         // get file data
         $nameFile = $_FILES['image']['name'];
         $nameTemp = $_FILES['image']['tmp_name'];
+        var_dump($nameFile);
 
         // choose directory
         $directory = "upload/";
 
         // move a file
         $upload = move_uploaded_file($nameTemp, $directory.$nameFile);
+        var_dump($upload);
         
         if ($upload){
             echo "Berhasil Upload<br>";

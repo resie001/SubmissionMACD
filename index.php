@@ -74,7 +74,7 @@ use WindowsAzure\Common\ServiceException;
         
         if ($upload){
             echo "Berhasil Upload<br>";
-            $content = fopen($directory.$nameFile.$_FILES['image']['name'],"r");
+            $content = fopen($directory.$nameFile,"r");
             $blobName = "myblobs";
 
             try {

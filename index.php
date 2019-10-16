@@ -44,15 +44,15 @@ use WindowsAzure\Common\ServiceException;
     if(isset($_POST['Submit'])){
 
         // Create a Connection String
-        $connectionString = "DefaultEndpointsProtocol=[http|https];AccountName=;AccountKey=";
+        // $connectionString = "DefaultEndpointsProtocol=[http|https];AccountName=;AccountKey=";
 
         // Create blob client.
-        $blobClient = ServicesBuilder::getInstance()->createBlobService($connectionString);
+        // $blobClient = ServicesBuilder::getInstance()->createBlobService($connectionString);
 
         // container name
-        $container = "blockbobs";
-        $createContainerOptions->addMetaData("key1", "value1");
-        $createContainerOptions->addMetaData("key2", "value2");
+        // $container = "blockbobs";
+        // $createContainerOptions->addMetaData("key1", "value1");
+        // $createContainerOptions->addMetaData("key2", "value2");
 
         // try {
         //     $blobRestProxy->createContainer($container, $createContainerOptions);
